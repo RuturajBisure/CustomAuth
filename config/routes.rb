@@ -9,6 +9,5 @@ Rails.application.routes.draw do
   post "new_user" => "authentications#register"
   get "account_settings" => "authentications#account_settings"
   put "account_settings" => "authentications#set_account_info"
-
   get "password_sent" => "authentications#password_sent"
 end
