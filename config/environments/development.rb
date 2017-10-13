@@ -36,13 +36,22 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   address:              'smtp.gmail.com',
+  #   port:                 587,
+  #   domain:               'gmail.com',
+  #   user_name:            'ruturaj@ascratech.in',
+  #   password:             'sandrosss...',
+  #   authentication:       'plain',
+  #   enable_starttls_auto: true  
+  # }
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'GMAIL_USERNAME',
-    password:             'GMAIL_PASSWORD',
-    authentication:       'plain',
-    enable_starttls_auto: true  
-}
+    user_name:            '',
+    password:             '',
+    authentication:       :plain,
+    enable_starttls_auto: true
+  }
 end

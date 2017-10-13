@@ -83,6 +83,36 @@ class AuthenticationsController < ApplicationController
     end
   end
 
+  # HTTP get
+  def forgot_password
+    @user = User.new
+  end
+
+  # HTTP put
+  def send_password_reset_instructions
+    username_or_email = params[:user][:username]
+
+    if username_or_email.rindex('@')
+      user = User.find_by_email(username_or_email)
+    else
+      user = User.find_by_username(username_or_email)
+    end
+
+    if user
+      user.password_reset_token = SecureRandom.urlsafe_base64
+      user.password_expires_after = 24.hours.from_now
+      user.save
+      UserMailer.reset_password_email(user).deliver
+      flash[:notice] = 'Password instructions have been mailed to you. Please check your inbox.'
+      redirect_to :sign_in
+    else
+      @user = User.new
+      # put the previous value back.
+      @user.username = params[:user][:username]
+      @user.errors[:username] = 'is not a registered user.'
+      render :action => "forgot_password"
+    end
+  end
 
   private
   def user_params
