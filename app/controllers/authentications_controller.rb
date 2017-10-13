@@ -22,7 +22,7 @@ class AuthenticationsController < ApplicationController
 
     if user
       session[:user_id] = user.id
-      flash[:notice] = 'Welcome.'
+      # flash[:notice] = 'Welcome.'
       redirect_to :root
     else
       flash.now[:error] = 'Unknown user. Please check your username and password.'
@@ -48,6 +48,41 @@ class AuthenticationsController < ApplicationController
     end
   end
   
+
+  def account_settings
+    @user = current_user
+  end
+
+  def set_account_info
+    old_user = current_user
+
+    # verify the current password by creating a new user record.
+    @user = User.authenticate_by_username(old_user.username, params[:user][:password])
+
+    # verify
+    if @user.nil?
+      @user = current_user
+      @user.errors[:password] = "Password is incorrect."
+      render :action => "account_settings"
+    else
+      # update the user with any new username and email
+      @user.update(user_params)
+      # Set the old email and username, which is validated only if it has changed.
+      @user.previous_email = old_user.email
+      @user.previous_username = old_user.username
+
+      if @user.valid?
+        # If there is a new_password value, then we need to update the password.
+        @user.password = @user.new_password unless @user.new_password.nil? || @user.new_password.empty?
+        @user.save
+        flash[:notice] = 'Account settings have been changed.'
+        redirect_to :root
+      else
+        render :action => "account_settings"
+      end
+    end
+  end
+
 
   private
   def user_params
