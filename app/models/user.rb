@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   # attr_accessible :email, :username, :password, :password_confirmation
-  attr_accessor :password, :previous_email, :previous_username, :new_password
+  attr_accessor :password, :previous_email, :previous_username, :new_password, :new_password_confirmation
   before_save :encrypt_password
 
   validates_confirmation_of :password

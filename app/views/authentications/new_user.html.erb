@@ -1,6 +1,7 @@
 <p>Sign Up</p>
 <%= form_for @user, :as => :user, :url => new_user_path, :method => :post do |f| %>
   <p>
+    <% binding.pry %>
     <%= f.label 'username:' %><br/>
     <%= f.text_field :username %>
     <%= show_field_error(@user, :username) %>
