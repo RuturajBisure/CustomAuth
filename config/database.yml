@@ -13,13 +13,14 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  # username: root
-  # password: password
-  # socket: /var/run/mysqld/mysqld.sock
-  
+  #for ubuntu
+  username: root
+  password: password
+  socket: /var/run/mysqld/mysqld.sock
+
   #for CLOUD9, dont forget to comment while using ubuntu
   # follow link https://community.c9.io/t/setting-up-mysql/1718
-  username: sandrosss
+  # username: sandrosss
   #databse name: c9
 
 development:
