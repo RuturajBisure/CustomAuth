@@ -37,17 +37,23 @@ class AuthenticationsController < ApplicationController
 
   def register
     @user = User.new(user_params)
-
-    if @user.valid?
-      @user.save
-      UserMailer.welcome_email(@user).deliver
-      session[:user_id] = @user.id
-      flash[:notice] = 'Welcome.'
-      redirect_to :root
-    else
+    if verify_recaptcha #for recaptcha # added a folder in config/initializers/recaptcha.rb
+      if @user.valid?
+        @user.save
+        UserMailer.welcome_email(@user).deliver
+        session[:user_id] = @user.id
+        flash[:notice] = 'Welcome.'
+        redirect_to :root
+      else
+        render :action => "new_user"
+      end
+    else #recaptcha errors
+      flash.delete(:recaptcha_error) # get rid of the recaptcha error being flashed by the gem.
+      flash.now[:error] = 'reCAPTCHA is incorrect. Please try again.'
       render :action => "new_user"
     end
   end
+
   
 
   def account_settings

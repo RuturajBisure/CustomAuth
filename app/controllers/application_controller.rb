@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery 
   helper_method :current_user
+  include Recaptcha::Verify 
+
 
   def current_user
     # Note: we want to use "find_by_id" because it's OK to return a nil.
