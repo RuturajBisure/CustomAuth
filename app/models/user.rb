@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   # attr_accessible :email, :username, :password, :password_confirmation
-  attr_accessor :password
+  attr_accessor :password, :previous_email, :previous_username, :new_password, :new_password_confirmation
   before_save :encrypt_password
 
   validates_confirmation_of :password
@@ -9,13 +9,11 @@ class User < ActiveRecord::Base
   validates_presence_of :username, :on => :create
   validates_uniqueness_of :email
   validates_uniqueness_of :username
+  validates_presence_of :email, :if => Proc.new {|user| 
+  user.previous_email.nil? || user.email != user.previous_email}
+  validates_presence_of :username, :if => Proc.new {|user| 
+  user.previous_username.nil? || user.username != user.previous_username}
 
-  # def initialize(attributes = {})
-  #   super # must allow the active record to initialize!
-  #   attributes.each do |name, value|
-  #     send("#{name}=", value)
-  #   end
-  # end
 
  def self.authenticate_by_email(email, password)
   user = find_by_email(email)
@@ -28,7 +26,6 @@ end
 
 def self.authenticate_by_username(username, password)
   user = find_by_username(username)
-  binding.pry
   if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
     user
   else

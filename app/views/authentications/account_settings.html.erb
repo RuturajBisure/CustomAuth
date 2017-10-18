@@ -1,0 +1,26 @@
+<p>Change Account settings</p>
+<%= form_for @user, :url => account_settings_path, :method => :put do |f| %>
+  <p>
+    <%= f.label 'Username:(leave blank if not changing)' %><br/>
+    <%= f.text_field :username %>
+    <%= show_field_error(@user, :username) %>
+  </p>
+  <p>
+    <%= f.label 'Email:(leave blank if not changing)' %><br/>
+    <%= f.text_field :email %>
+    <%= show_field_error(@user, :email) %>
+  </p>
+  <p>
+    <%= f.label 'Current Password:(leave blank if not changing)' %><br/>
+    <%= f.password_field :password %>
+    <%= show_field_error(@user, :password) %>
+  </p>
+  <p>
+    <%= f.label 'New Password:' %><br/>
+    <%= f.password_field :new_password %>
+  </p>
+  <p>
+    <%= f.submit 'Update Setting' %>&nbsp;&nbsp;&nbsp;
+    <%= f.submit 'Clear', :type => 'reset' %>
+  </p>
+<% end %>
