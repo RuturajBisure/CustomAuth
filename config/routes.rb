@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root :to=>"homes#index"
   get "sign_in" => "authentications#sign_in"
   post "sign_in" => "authentications#login"
@@ -21,4 +22,9 @@ Rails.application.routes.draw do
   
   get "password_reset" => "authentications#password_reset"
   put "password_reset" => "authentications#new_password"
+
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'sessions#destroy', as: 'signout'
+  resources :sessions, only: [:create, :destroy]
 end

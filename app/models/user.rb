@@ -15,28 +15,40 @@ class User < ActiveRecord::Base
   user.previous_username.nil? || user.username != user.previous_username}
 
 
- def self.authenticate_by_email(email, password)
-  user = find_by_email(email)
-  if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-    user
-  else
-    nil
+  def self.authenticate_by_email(email, password)
+    user = find_by_email(email)
+    if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
+      user
+    else
+      nil
+    end
   end
-end
 
-def self.authenticate_by_username(username, password)
-  user = find_by_username(username)
-  if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-    user
-  else
-    nil
+  def self.authenticate_by_username(username, password)
+    user = find_by_username(username)
+    if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
+      user
+    else
+      nil
+    end
   end
-end
 
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
+  end
+
+  def self.from_omniauth(auth)
+    a = auth.slice(:provider, :uid)
+    user = User.where("email = ?", auth.info.email).first || User.where("provider = ? or uid =?",a.provider,a.uid).first_or_initialize 
+    user.username = auth.info.name
+    user.oauth_token = auth.credentials.token
+    user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+    user.email = auth.info.email
+    user.password = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
+    user.save!
+    user
   end
 end
