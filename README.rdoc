@@ -26,3 +26,27 @@ Things you may want to cover:
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+
+
+Facebook integration steps
+Fb App settings
+1. Go to https://richonrails.com/articles/facebook-authentication-in-ruby-on-rails & create developers account
+2. It will generate App Id And secret Key. Keep it safe 
+3. Go to setting of fb app -> setting 
+4. For developement use App Domains http://localhost:3000 and click 'Add Platform' And add site Url as http://localhost:3000 
+5. In fb app -> Facebook Login "Use strict mode for redirect URL" change to NO and Below in "Valid OAuth redirect URIs" option add http://localhost:3000
+6. fb app -> App Review -> Make CustomAuth public? to YES
+
+Coding changes
+1. Add gem 'omniauth-facebook'
+2. Add gem 'dotenv-rails' to create .env file and hide secret keys 
+3. Create file config/initializers/omniauth.rb
+4. Add keys in it using ENV for this purpose  dotenv-rails is used
+5. Add Route
+6. Add code in user model, WE MUST GENERATE RANDOM PASS AS WE DONT HAVE ANY
+7. Create session controller
+
+Twitter 
+follow https://code.tutsplus.com/tutorials/twitter-sign-in-for-rails-application--cms-28097
+same as twitter, 
