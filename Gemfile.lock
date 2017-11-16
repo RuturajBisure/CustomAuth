@@ -76,6 +76,9 @@ GEM
       rack (>= 1.0, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
+    omniauth-linkedin-oauth2 (0.2.5)
+      omniauth (~> 1.0)
+      omniauth-oauth2
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
@@ -157,6 +160,7 @@ DEPENDENCIES
   jquery-rails
   mysql2 (= 0.3.18)
   omniauth-facebook
+  omniauth-linkedin-oauth2
   omniauth-oauth2 (= 1.4.0)
   pg
   pry-remote

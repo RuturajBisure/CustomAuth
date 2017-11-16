@@ -30,7 +30,7 @@ gem 'omniauth-facebook'#, '~> 1.4.1'
 # gem 'oauth2', '1.4.0'
 # gem 'omniauth', '1.7.1'
 gem 'omniauth-oauth2', '1.4.0'
-
+gem 'omniauth-linkedin-oauth2'
 
 group :development do 
   gem 'mysql2', '0.3.18'
