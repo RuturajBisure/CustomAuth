@@ -26,14 +26,19 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'bcrypt'
 gem 'pry-remote'
+
+#facebook intgtn
 gem 'omniauth-facebook'#, '~> 1.4.1'
 # gem 'oauth2', '1.4.0'
 # gem 'omniauth', '1.7.1'
 gem 'omniauth-oauth2', '1.4.0'
 
+#twitter
+gem 'omniauth-twitter'
 
 group :development do 
   gem 'mysql2', '0.3.18'
+  gem 'dotenv-rails'
 end
 
 group :production do

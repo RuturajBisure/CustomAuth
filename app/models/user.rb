@@ -42,11 +42,15 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth)
     a = auth.slice(:provider, :uid)
-    user = User.where("email = ?", auth.info.email).first || User.where("provider = ? or uid =?",a.provider,a.uid).first_or_initialize 
+    #!!!!as twitter doesnt send email we create user with uid for twitter!!!
+    auth[:provider] == "facebook" ? user = User.where("email = ?", auth.info.email).first || User.where("provider = ? or uid =?",a.provider,a.uid).first_or_initialize  : user = User.where(:provider => auth.provider, :uid => auth.uid).first_or_initialize
     user.username = auth.info.name
     user.oauth_token = auth.credentials.token
-    user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-    user.email = auth.info.email
+    # auth[:provider] == "facebook" ? user.oauth_expires_at = Time.at(auth.credentials.expires_at) : user.oauth_expires_at =Time.at(auth[:extra][:access_token].params[:x_auth_expires])
+
+    #for twitter we are generating random email bcz twitter doesnt send email
+    auth[:provider] == "facebook" ? user.email = auth.info.email : user.email = auth.info.name.parameterize + Time.now.to_i.to_s + "@ruturaj.com"
+    #as password is must we generate random password if anyone login with fb or twitter !!!!
     user.password = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
     user.save!
     user

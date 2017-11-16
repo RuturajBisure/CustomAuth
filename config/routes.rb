@@ -23,8 +23,11 @@ Rails.application.routes.draw do
   get "password_reset" => "authentications#password_reset"
   put "password_reset" => "authentications#new_password"
 
+  
+  #facebook login integration 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   resources :sessions, only: [:create, :destroy]
+
 end

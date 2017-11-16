@@ -17,3 +17,5 @@
 
 # Ignore Gmail Password
 /config/locales/local_env.yml
+
+.env
