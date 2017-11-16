@@ -35,6 +35,8 @@ gem 'omniauth-oauth2', '1.4.0'
 
 #twitter
 gem 'omniauth-twitter'
+gem "omniauth-google-oauth2", "~> 0.2.1"
+gem 'omniauth-google'
 
 group :development do 
   gem 'mysql2', '0.3.18'

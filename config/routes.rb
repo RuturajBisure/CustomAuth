@@ -30,4 +30,8 @@ Rails.application.routes.draw do
   get 'signout', to: 'sessions#destroy', as: 'signout'
   resources :sessions, only: [:create, :destroy]
 
+  get 'auth/google_oauth2', to: 'sessions#create'
+  get 'auth/google_oauth2/callback', to: 'sessions#create'
+
+
 end
