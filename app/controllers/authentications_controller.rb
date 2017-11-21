@@ -141,7 +141,6 @@ class AuthenticationsController < ApplicationController
     @user = User.find_by_username(username)
   
     if verify_new_password(params[:user])
-      binding.pry
       @user.update(user_params)
       @user.password = @user.new_password
   
